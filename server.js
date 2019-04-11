@@ -3,14 +3,30 @@ var express = require('express');
 
 var app = express();
 
+//----------
+var Gpio = require('onoff').Gpio; 
+var Buzzer = new Gpio(18, 'out'); 
+//var blinkInterval = setInterval(blinkBuzzer, 250); 
+//----------
+
 app.use(express.static(__dirname));
 
-app.get('/home', function(req, res) {
-	res.status(200).send('This is a home page!');
+app.get('/on', function(req, res) {
+	//res.status(200).send('This is a home page!');
+	if (Buzzer.readSync() === 0) { 
+    		Buzzer.writeSync(1); //set pin state to 1 (turn Buzzer on)
+  	} else {
+    		Buzzer.writeSync(0); //set pin state to 0 (turn Buzzer off)
+  	}
 });
 
-app.get('/buzzer', function(req, res) {
-	res.status(200).send('This is a Buzzer page!');
+app.get('/off', function(req, res) {
+	//res.status(200).send('This is a Buzzer page!');
+ 	if (Buzzer.readSync() === 1) { 
+    		Buzzer.writeSync(0); //set pin state to 1 (turn Buzzer on)
+  	} else {
+    		Buzzer.writeSync(1); //set pin state to 0 (turn Buzzer off)
+  	}
 });
 
 app.get('*', function(req, res) {
