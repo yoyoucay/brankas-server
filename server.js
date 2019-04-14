@@ -28,6 +28,17 @@ app.get('/off', function (req, res) {
 	res.status(200).send('The Buzzer was turn OFF!');
 });
 
+app.get('/lock', function (req, res) {
+	brankas.servoLock();
+	res.status(200).send('The Servo Was Locked!');
+});
+
+app.get('/unlock', function (req, res) {
+	brankas.servoUnlock();
+	res.status(200).send('The Servo Was Unlocked!');
+});
+
+
 app.get('*', function (req, res) {
 	res.status(404).send('Unrecognized API call');
 });

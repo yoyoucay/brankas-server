@@ -1,29 +1,28 @@
 var Gpio = require('onoff').Gpio;
-var PiServo = require('pigpio').Gpio;
+var PiServo = require('pi-servo');
 var Buzzer = new Gpio(18, 'out');
-var Servo = new PiServo(22, { mode: Gpio.OUTPUT });
+var servo1 = new PiServo(17);
 
+// var pool = require('./databaseConfig.js');
 var brankasModule = {
   turnOnBuzzer: function () {
     if (Buzzer.readSync() === 0) {
-      Buzzer.writeSync(1);
+      Buzzer.writeSync(1); //set pin state to 1 (turn Buzzer on)
+      // setInterval(Buzzer.writeSync(1), 250);
     } else {
       console.log('Already turn on dude !');;
     }
   },
   turnOffBuzzer: function () {
     if (Buzzer.readSync() === 1) {
-      Buzzer.writeSync(0);
+      Buzzer.writeSync(0); //set pin state to 1 (turn Buzzer on)
     } else {
       console.log('Already turn off dude !');
     }
+    // clearInterval();
+    // Buzzer.unexport();
   },
-  servoLock: function () {
-    Servo.servoWrite(600);
-  },
-  servoUnlock: function () {
-    Servo.servoWrite(1500);
-  }
-
+  turnOnServo: function() {
+}
 };
 module.exports = brankasModule
