@@ -1,6 +1,6 @@
 var Gpio = require('onoff').Gpio;
 var PiServo = require('pigpio').Gpio;
-var Buzzer = new Gpio(18, 'out');
+var Buzzer = new Gpio(15, 'out');
 var Servo = new PiServo(22, { mode: Gpio.OUTPUT });
 
 var brankasModule = {
