@@ -11,22 +11,43 @@ var app = express();
 
 app.use(express.static(__dirname));
 
-app.get('/on', function (req, res) {
-	brankas.turnOnBuzzer();
-	res.status(200).send('The Buzzer was turn ON!');
+app.get('/buzzer/:state', function (req, res) {
+	var state = req.params.state;
+	res.header("Access-Controll-Allow-Origin", "*");
+	res.header("Access-Controll-Allow-Origin", "Origin, X-Requested-With, Content-Type, Accept");
+	brankas.pin_write(7, state, function (err, result) {
+		if (!err) {
+			if (state == 1) {
+				'Buzzer Hidup'
+				res.send(result);
+			} else {
+				'Buzzer mati'
+				res.send(result);
+			}
+		} else {
+			console.log(err);
+			res.status(500).send(err);
+		}
+	});
+	//res.status(200).send('Buzzer ON!');
 });
 
-app.get('/off', function (req, res) {
-	//res.status(200).send('This is a Buzzer page!');
-	// if (Buzzer.readSync() === 1) {
-	// 	Buzzer.writeSync(0); //set pin state to 1 (turn Buzzer on)
-	// } else {
-	// 	Buzzer.writeSync(1); //set pin state to 0 (turn Buzzer off)
-	// }
-	brankas.turnOffBuzzer();
-	// clearInterval(brankas);
-	res.status(200).send('The Buzzer was turn OFF!');
+app.post('/off', function (req, res) {
+	res.header("Access-Controll-Allow-Origin", "*");
+	res.header("Access-Controll-Allow-Origin", "Origin, X-Requested-With, Content-Type, Accept");
+	brankas.pin_write(7, 0);
+	res.status(200).send('Buzzer ON!');
 });
+
+//app.post('/on', function (req, res) {
+//	brankas.turnOnBuzzer(req, res);
+//	res.status(200).send('The Buzzer was turn ON!');
+//});
+
+//app.post('/off', function (req, res) {
+//	brankas.turnOffBuzzer(req, res);
+//	res.status(200).send('The Buzzer was turn OFF!');
+//});
 
 app.get('/lock', function (req, res) {
 	brankas.servoLock();
@@ -52,5 +73,6 @@ app.get('*', function (req, res) {
 
 // });
 
-app.listen(8081);
-console.log('App Server is listening on port 8081');
+app.listen(9898);
+console.log('App Server is listening on port 9898');
+
